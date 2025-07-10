@@ -36,9 +36,9 @@ const Banner: React.FC = () => {
         }}
       >
         <img
-          alt="Dogenano block explorer"
+          alt="X US Dollar block explorer"
           height="30px"
-          src={`/dogenano.png`}
+          src={`/xusd.png`}
           style={{ marginRight: "12px" }}
         />
         <Title

@@ -48,7 +48,7 @@ const getAccounts = async () => {
 
   let currentAccountCount = 0;
   let nextAccount =
-    "xdg_1111111111111111111111111111111111111111111111111111hifc8npp";
+    "xusd_1111111111111111111111111111111111111111111111111111hifc8npp";
   let steps = 50000;
   let nextCount = 0;
 
@@ -118,7 +118,7 @@ const getDistribution = async () => {
   // 10,000,000 - <100,000,000
   // 100,000,000 - <1,000,000,000
   // 1,000,000,000 - <10,000,000,000
-  const distribution = Array.from({ length: 12 }, () => ({
+  const distribution = Array.from({ length: 10 }, () => ({
     accounts: 0,
     balance: 0,
   }));

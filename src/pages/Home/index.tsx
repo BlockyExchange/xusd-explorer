@@ -145,15 +145,17 @@ const HomePage = () => {
                 />
               </Col>
               <Col xs={24} sm={12}>
-                <LoadingStatistic
-                  isLoading={!representatives.length}
-                  title={t("pages.home.principalRepOnline")}
-                  value={
-                    representatives.filter(
-                      ({ isOnline, isPrincipal }) => isOnline && isPrincipal,
-                    )?.length
-                  }
-                />
+              <LoadingStatistic
+                isLoading={!Array.isArray(representatives) || !representatives.length}
+                title={t("pages.home.principalRepOnline")}
+                value={
+                  Array.isArray(representatives)
+                    ? representatives.filter(
+                        ({ isOnline, isPrincipal }) => isOnline && isPrincipal
+                      )?.length
+                    : 0
+                }
+              />  
                 <LoadingStatistic
                   isLoading={!average}
                   title={t("pages.home.avgConfirmationTime")}

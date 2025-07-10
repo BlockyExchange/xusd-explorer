@@ -8,7 +8,7 @@ const doDelegatedEntitiesCron = async () => {
   const knownAccountsBalance = nodeCache.get(KNOWN_ACCOUNTS_BALANCE) || [];
 
   const filteredKnownAccountsBalance = knownAccountsBalance.filter(
-    ({ account, total }) => total >= 50000 && account !== BURN_ACCOUNT,
+    ({ account, total }) => total >= 0 && account !== BURN_ACCOUNT,
   );
 
   const delegatedEntities = filteredKnownAccountsBalance.length

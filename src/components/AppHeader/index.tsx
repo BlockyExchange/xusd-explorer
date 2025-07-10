@@ -49,7 +49,7 @@ const AppHeader: React.FC = () => {
             }}
           >
             <Link to="/" style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-              Dogenano Explorer
+              X US Dollar Explorer
             </Link>
           </Col>
           <Col xs={{ span: 24, order: 3 }} md={{ span: 12, order: 2 }}>
@@ -83,18 +83,18 @@ const AppHeader: React.FC = () => {
                   {t("menu.largeTransactions")}
                   <Link to="/large-transactions" />
                 </Menu.Item> */}
-                <Menu.Item key="distribution">
+                {/* <Menu.Item key="distribution">
                   {t("menu.distribution")}
                   <Link to="/distribution" />
-                </Menu.Item>
+                </Menu.Item> */}
                 {/* <Menu.Item key="exchange-tracker">
                   {t("menu.exchangeTracker")}
                   <Link to="/exchange-tracker" />
                 </Menu.Item> */}
-                <Menu.Item key="faucets">
+                {/* <Menu.Item key="faucets">
                   {t("menu.faucets")}
                   <Link to="/faucets" />
-                </Menu.Item>
+                </Menu.Item> */}
               </SubMenu>
 
               {/* <Menu.Item key="news">

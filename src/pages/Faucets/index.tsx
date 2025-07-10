@@ -52,7 +52,7 @@ const FaucetsPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>DogeNano {t("menu.faucets")}</title>
+        <title>XUSD {t("menu.faucets")}</title>
       </Helmet>
       <Title level={3}>{t("menu.faucets")}</Title>
       <div style={{ marginBottom: "12px" }}>

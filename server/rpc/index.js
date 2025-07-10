@@ -72,12 +72,53 @@ const getCacheKey = (action, params) =>
       ? `-${Object.values(params).filter(Boolean).join("-")}`
       : ""
   }`;
-
   const getCirculatingSupply = async () => {
-    let res = await fetch("https://api.dogenano.io/get-total-claim");
-    let json = await res.json();
-    return json[0].sumDogenano * 1.1
-  }
+    const url = "https://rpc.xusd.blocky.com.br";
+  
+    // Define payloads for both requests.
+    const availablePayload = {
+      action: "available_supply"
+    };
+  
+    const balancePayload = {
+      action: "account_balance",
+      account:
+        "xusd_3g4xqr1h6tfaykypf3ppk5ik8yffjc63cjtf579dy47b1bz7bd87kdfijxor", // Blocky Cold Wallet
+    };
+  
+    const headers = {
+      "Content-Type": "application/json",
+    };
+  
+    // Execute both requests concurrently.
+    const [availableRes, balanceRes] = await Promise.all([
+      fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(availablePayload),
+      }),
+      fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(balancePayload),
+      }),
+    ]);
+  
+    // Parse the JSON responses.
+    const availableData = await availableRes.json();
+    const balanceData = await balanceRes.json();
+  
+    // Convert to BigInt and subtract.
+    const available = BigInt(availableData.available);
+    const balance = BigInt(balanceData.balance);
+    const diff = available - balance;
+  
+    // Convert the difference to a string.
+    const diffStr = diff.toString();
+    return diffStr;
+  };
+  
+  
 
 const rpc = async (action, params, isLimited, rpcDomain) => {
   let res;
@@ -86,7 +127,7 @@ const rpc = async (action, params, isLimited, rpcDomain) => {
   if (action === "available_supply"){
     let r = await getCirculatingSupply()
     return {
-      available: r.toFixed(0) + "00000000000000000000000000"
+      available: r
     }
   }
   let cacheKey = cacheSettings[action] && getCacheKey(action, params);

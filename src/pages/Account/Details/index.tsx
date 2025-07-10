@@ -209,7 +209,7 @@ const AccountDetails: React.FC<Props> = ({
           <Col xs={24} sm={18} md={20}>
             <Skeleton
               {...skeletonProps}
-              loading={isAccountInfoLoading || isRepresentativesLoading}
+              loading={false}
             >
               {accountsRepresentative?.account ? (
                 <>

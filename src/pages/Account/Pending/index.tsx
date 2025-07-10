@@ -26,11 +26,6 @@ interface PendingHistoryBlock extends PendingBlock {
   local_timestamp: String;
 }
 
-// 0.000001 Nano
-const PENDING_MIN_THRESHOLD = new BigNumber(1e24).toFixed();
-// 0.001 Nano
-const PENDING_MIN_EXCHANGE_THRESHOLD = new BigNumber(1e27).toFixed();
-
 interface Props {
   socketTransactions: Transaction[];
   pendingSocketTransactions: Transaction[];
@@ -54,9 +49,7 @@ const AccountPendingHistory: React.FC<Props> = ({
       count: String(MAX_PENDING_TRANSACTIONS),
       sorting: true,
       source: true,
-      threshold: knownExchangesList?.includes(account)
-        ? PENDING_MIN_EXCHANGE_THRESHOLD
-        : PENDING_MIN_THRESHOLD,
+      threshold: "1",
       include_only_confirmed: false,
     },
   );

@@ -1,17 +1,7 @@
 [
   {
-    "alias": "Nanswap",
-    "account": "xdg_11x47nnqaq1bt73nfgptm87zuu4npwajjhwxesa4mmioja7f54noswse9djq",
-    "link": "https://nanswap.com/dogenano-faucet"
-  },
-  {
-    "alias": "Discord",
-    "account": "xdg_1kszejca7cytdthu6a3ntj36nbqkokbmt696a9toufhw8erfkaxi9oena169",
-    "link": "https://discord.gg/B7eDT2NtcK"
-  },
-  {
-    "alias": "Getnano",
-    "account": "xdg_3getnanons1aaqo5itbm8wdbzhtsp7tctd6p6qa7axwff7ocemzs3w381kfy",
-    "link": "https://getnano.ovh/"
+    "alias": "Blocky",
+    "account": "xusd_11x47nnqaq1bt73nfgptm87zuu4npwajjhwxesa4mmioja7f54noswse9djq",
+    "link": "https://blocky.com.br"
   }
 ]

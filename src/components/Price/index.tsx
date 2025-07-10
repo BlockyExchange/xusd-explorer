@@ -104,7 +104,7 @@ const CryptocurrencyPrice = ({
             {(symbol === "nano" || symbol === "xno") && price24hChange >= 25
               ? "🥦"
               : null}
-            {symbol === "xdg" && price24hChange >= 25 ? "🍌" : null}
+            {symbol === "xusd" && price24hChange >= 25 ? "🍌" : null}
           </>
         }
       />

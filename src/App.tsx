@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
@@ -44,10 +45,10 @@ const App: React.FC = () => {
     <>
       <Helmet>
         <html lang={i18next.language} />
-        <title>Dogenano {t("common.blockExplorer")}</title>
+        <title>X US Dollar {t("common.blockExplorer")}</title>
         <meta
           name="description"
-          content="Block explorer of the Dogenano cryptocurrency"
+          content="Block explorer of the X US Dollar Stablecoin"
         />
         <meta
           name="theme-color"

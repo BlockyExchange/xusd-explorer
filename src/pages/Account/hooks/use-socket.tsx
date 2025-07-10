@@ -165,7 +165,7 @@ const useSocket = ({ account }: { account?: string }) => {
     isForcedClosed = false;
     setIsConnected(false);
 
-    ws = new WebSocket(websocketDomain || "wss://www.nanolooker.com/ws");
+    ws = new WebSocket(websocketDomain || "wss://ws.xusd.blocky.com.br");
 
     ws.onopen = () => {
       clearInterval(pingInterval);

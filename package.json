@@ -15,7 +15,7 @@
     "eject": "react-scripts eject",
     "translate": "node scripts/translate.js"
   },
-  "proxy": "http://localhost:3010",
+  "proxy": "http://xusd-node:7026",
   "browserslist": {
     "production": [
       ">0.2%",

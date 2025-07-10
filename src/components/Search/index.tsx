@@ -74,14 +74,14 @@ const Search = ({ isHome = false }) => {
           let account = getPrefixedAccount(value);
 
           if (!account.includes("_")) {
-            account = `xdg_${account}`;
+            account = `xusd_${account}`;
             setSearchValue(account);
           } else if (
             account.startsWith("nano_") ||
             account.startsWith("xrb_")
           ) {
             // @TODO open modal to select NL or BNL
-            account = `xdg_${account.split("_")[1]}`;
+            account = `xusd_${account.split("_")[1]}`;
             setSearchValue(account);
           }
           addSearchHistory(account);

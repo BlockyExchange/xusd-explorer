@@ -122,32 +122,62 @@ app.get("/api/developer-fund/transactions", async (req, res) => {
 });
 
 app.get("/api/market-statistics", async (req, res) => {
-  const cachedConfirmations24h = nodeCache.get(TOTAL_CONFIRMATIONS_24H);
-  const cachedVolume24h = nodeCache.get(TOTAL_VOLUME_24H);
-  const cachedConfirmations48h = nodeCache.get(TOTAL_CONFIRMATIONS_48H);
-  const cachedVolume48h = nodeCache.get(TOTAL_VOLUME_48H);
+  try {
+    // Get cached data
+    const cachedConfirmations24h = nodeCache.get(TOTAL_CONFIRMATIONS_24H);
+    const cachedVolume24h = nodeCache.get(TOTAL_VOLUME_24H);
+    const cachedConfirmations48h = nodeCache.get(TOTAL_CONFIRMATIONS_48H);
+    const cachedVolume48h = nodeCache.get(TOTAL_VOLUME_48H);
 
-  const { marketStats, dogeMarketStats, priceStats } = await getCoingeckoStats({
-    fiat: req.query.fiat,
-    cryptocurrency: req.query.cryptocurrency,
-  });
+    // Get core market stats from CoinGecko
+    const { marketStats, dogeMarketStats, priceStats } = await getCoingeckoStats({
+      fiat: req.query.fiat,
+      cryptocurrency: req.query.cryptocurrency,
+    });
 
-  let nanswapData = await fetch('https://data.nanswap.com/get-markets')
-  let nanswapDataJSON = await nanswapData.json()
-  let xdgPriceXNO = nanswapDataJSON.find((e) => e.key === 'XDG/XNO').midPrice
-  console.log(priceStats);
-  let xdgPriceUSD = xdgPriceXNO * priceStats['nano'].usd
-  marketStats['currentPrice'] = xdgPriceUSD
+    // Fetch both external APIs concurrently
+    const [quoteResponse, nanswapResponse] = await Promise.all([
+      fetch("https://economia.awesomeapi.com.br/last/BRL-USD"),
+      fetch("https://data.nanswap.com/get-markets")
+    ]);
 
-  res.send({
-    [TOTAL_CONFIRMATIONS_24H]: cachedConfirmations24h,
-    [TOTAL_VOLUME_24H]: cachedVolume24h,
-    [TOTAL_CONFIRMATIONS_48H]: cachedConfirmations48h,
-    [TOTAL_VOLUME_48H]: cachedVolume48h,
-    ...marketStats,
-    priceStats,
-    dogeMarketStats,
-  });
+    const quoteData = await quoteResponse.json();
+    const nanswapDataJSON = await nanswapResponse.json();
+
+    // Option 1: Compute price based on nanswap data (if available)
+    const xdgMarket = nanswapDataJSON.find((e) => e.key === "XDG/XNO");
+    let computedPrice = null;
+    if (xdgMarket && priceStats?.nano?.usd) {
+      computedPrice = xdgMarket.midPrice * priceStats.nano.usd;
+    }
+
+    // Option 2: Use the quote API's BRLUSD data as the current price (average of ask & bid)
+    if (quoteData && quoteData.BRLUSD) {
+      const ask = parseFloat(quoteData.BRLUSD.ask);
+      const bid = parseFloat(quoteData.BRLUSD.bid);
+      const avgPrice = (ask + bid) / 2.0;
+      // You can choose which value to trust more.
+      // For now, we'll let the quote API data override the nanswap value.
+      computedPrice = avgPrice;
+    }
+
+    // Set the currentPrice only once
+    marketStats.currentPrice = computedPrice;
+
+    // Send the response
+    res.send({
+      [TOTAL_CONFIRMATIONS_24H]: cachedConfirmations24h,
+      [TOTAL_VOLUME_24H]: cachedVolume24h,
+      [TOTAL_CONFIRMATIONS_48H]: cachedConfirmations48h,
+      [TOTAL_VOLUME_48H]: cachedVolume48h,
+      ...marketStats,
+      priceStats,
+      dogeMarketStats,
+    });
+  } catch (error) {
+    console.error("Error fetching market statistics:", error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
 });
 
 app.get("/api/statistics/social", async (req, res) => {
